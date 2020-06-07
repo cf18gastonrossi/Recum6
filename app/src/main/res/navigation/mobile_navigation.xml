@@ -8,18 +8,18 @@
     <fragment
         android:id="@+id/navigation_alta"
         android:name="com.example.recum6.ui.alta.AltaFragment"
-        android:label="@string/title_home"
+        android:label="Alta"
         tools:layout="@layout/fragment_alta" />
 
     <fragment
         android:id="@+id/navigation_modificacio"
         android:name="com.example.recum6.ui.modificacio.ModificacioFragment"
-        android:label="@string/title_dashboard"
+        android:label="Modificacio"
         tools:layout="@layout/fragment_modificacio" />
 
     <fragment
         android:id="@+id/navigation_lista"
         android:name="com.example.recum6.ui.lista.ListaFragment"
-        android:label="@string/title_notifications"
+        android:label="Lista"
         tools:layout="@layout/fragment_lista" />
 </navigation>
