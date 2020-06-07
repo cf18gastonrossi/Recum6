@@ -54,6 +54,16 @@ public class DatabaseManager {
         return i;
     }
 
+    public Cursor searchForCIF(String cif) {
+
+        String[] columns = new String[] { DatabaseHelper._ID, DatabaseHelper.NOMBRE, DatabaseHelper.CIF};
+        Cursor cursor = database.rawQuery("select * from "+ DatabaseHelper.TABLE_NAME + " where "+ DatabaseHelper.CIF + " = " + cif, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+        return cursor;
+    }
+
     public void delete(String cif) {
         database.delete(DatabaseHelper.TABLE_NAME, DatabaseHelper.CIF + "=" + cif, null);
     }

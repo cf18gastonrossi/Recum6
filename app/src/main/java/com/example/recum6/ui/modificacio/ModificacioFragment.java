@@ -1,5 +1,6 @@
 package com.example.recum6.ui.modificacio;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.example.recum6.repository.DatabaseManager;
 
 public class ModificacioFragment extends Fragment {
 
-    private TextView nameEditText, cifEditText, cifConsultaEditText, consultaTextView;
+    private TextView nameEditText, cifEditText, cifConsultaEditText, consultaNombre, consultaCIF;
 
     private Button modificarButton, consultaButton;
     private DatabaseManager dbManager;
@@ -32,9 +33,8 @@ public class ModificacioFragment extends Fragment {
         nameEditText = root.findViewById(R.id.nameEditText);
         cifEditText = root.findViewById(R.id.cifEditText);
         cifConsultaEditText = root.findViewById(R.id.cifConsultaEditText);
-        consultaTextView = root.findViewById(R.id.consultaTextView);
-
-        consultaTextView.setVisibility(View.INVISIBLE);
+        consultaNombre = root.findViewById(R.id.consultaNombre);
+        consultaCIF = root.findViewById(R.id.consultaCIF);
 
         modificarButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +44,29 @@ public class ModificacioFragment extends Fragment {
                     dbManager.open();
                     dbManager.update(new Hotel(nameEditText.getText().toString(), cifEditText.getText().toString()));
                     Toast.makeText(getContext(), "Hotel modificado correctamente.", Toast.LENGTH_SHORT).show();
+                    dbManager.close();
                 } else {
                     Toast.makeText(getContext(), "Hotel no se pudo modificar.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        consultaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (!cifConsultaEditText.getText().toString().equalsIgnoreCase("")) {
+                        dbManager = new DatabaseManager(getContext());
+                        dbManager.open();
+                        Cursor c = dbManager.searchForCIF(cifConsultaEditText.getText().toString());
+                        consultaNombre.setText(c.getString(1));
+                        consultaCIF.setText(c.getString(2));
+                        consultaNombre.setVisibility(View.VISIBLE);
+                        consultaCIF.setVisibility(View.VISIBLE);
+                        dbManager.close();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), "Hotel no se pudo encontrar.", Toast.LENGTH_SHORT).show();
                 }
             }
         });

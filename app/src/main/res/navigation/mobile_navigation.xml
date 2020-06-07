@@ -8,13 +8,13 @@
     <fragment
         android:id="@+id/navigation_alta"
         android:name="com.example.recum6.ui.alta.AltaBajaFragment"
-        android:label="Alta"
+        android:label="Altas y bajas"
         tools:layout="@layout/fragment_alta" />
 
     <fragment
         android:id="@+id/navigation_modificacio"
         android:name="com.example.recum6.ui.modificacio.ModificacioFragment"
-        android:label="Modificacio"
+        android:label="Modificación y consulta"
         tools:layout="@layout/fragment_modificacio" />
 
     <fragment
