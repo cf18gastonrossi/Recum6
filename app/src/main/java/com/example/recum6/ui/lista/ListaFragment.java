@@ -51,6 +51,8 @@ public class ListaFragment extends Fragment {
 
         listView.setAdapter(adapter);
 
+        dbManager.close();
+
         return root;
     }
 }

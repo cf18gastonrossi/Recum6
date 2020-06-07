@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -13,8 +15,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.recum6.R;
+import com.example.recum6.model.Hotel;
+import com.example.recum6.repository.DatabaseManager;
 
 public class AltaFragment extends Fragment {
+
+    private TextView nameEditText, cifEditText;
+
+    private Button altaButton;
+    private DatabaseManager dbManager;
 
     private AltaViewModel altaViewModel;
 
@@ -23,13 +32,27 @@ public class AltaFragment extends Fragment {
         altaViewModel =
                 ViewModelProviders.of(this).get(AltaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_alta, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        altaViewModel.getText().observe(this, new Observer<String>() {
+
+        altaButton = root.findViewById(R.id.altaButton);
+        nameEditText = root.findViewById(R.id.nameEditText);
+        cifEditText = root.findViewById(R.id.cifEditText);
+
+        dbManager = new DatabaseManager(getContext());
+        dbManager.open();
+
+        altaButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onClick(View view) {
+                if (Hotel.checkInput(nameEditText.getText().toString(),cifEditText.getText().toString())) {
+                    dbManager.insert(new Hotel(nameEditText.getText().toString(),cifEditText.getText().toString()));
+                    Toast.makeText(getContext(),"Hotel dado de alta correctamente.",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getContext(),"No se pudo dar de alta al hotel.",Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
         return root;
     }
 }
