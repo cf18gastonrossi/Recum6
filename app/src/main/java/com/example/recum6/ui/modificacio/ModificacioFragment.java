@@ -16,20 +16,11 @@ import com.example.recum6.R;
 
 public class ModificacioFragment extends Fragment {
 
-    private ModificacioViewModel modificacioViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        modificacioViewModel =
-                ViewModelProviders.of(this).get(ModificacioViewModel.class);
         View root = inflater.inflate(R.layout.fragment_modificacio, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        modificacioViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
 }

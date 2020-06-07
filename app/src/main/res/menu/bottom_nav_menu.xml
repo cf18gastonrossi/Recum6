@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigation_alta"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="Alta" />
+        android:title="Alta/Baja" />
 
     <item
         android:id="@+id/navigation_modificacio"

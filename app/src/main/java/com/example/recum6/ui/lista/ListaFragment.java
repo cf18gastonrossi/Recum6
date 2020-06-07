@@ -32,12 +32,9 @@ public class ListaFragment extends Fragment {
 
     final int[] to = new int[]{R.id.id, R.id.title, R.id.desc};
 
-    private ListaViewModel listaViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        listaViewModel =
-                ViewModelProviders.of(this).get(ListaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_lista, container, false);
 
         dbManager = new DatabaseManager(getContext());
