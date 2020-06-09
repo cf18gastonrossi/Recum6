@@ -2,6 +2,7 @@ package com.example.recum6.repository;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 
 import androidx.room.Room;
 
@@ -30,7 +31,7 @@ public class RoomUse {
         return room;
     }
 
-    public List<Hotel> getHoteles() {
+    public Cursor getHoteles() {
         return hotelDao.getHoteles();
     }
 
@@ -42,11 +43,11 @@ public class RoomUse {
         hotelDao.insert(hotel);
     }
 
-    public void update(Hotel hotel) {
-        hotelDao.update(hotel);
+    public void update(String nombre, String cif) {
+        hotelDao.update(nombre, cif);
     }
 
-    public void delete(Hotel hotel) {
-        hotelDao.delete(hotel);
+    public void delete(String cif) {
+        hotelDao.delete(cif);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.recum6.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -7,6 +8,8 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "hotel")
 public class Hotel {
 
+    @PrimaryKey
+    @NonNull
     @ColumnInfo(name = "nombre")
     private String nombre;
 

@@ -12,7 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table columns
     public static final String _ID = "_id";
     public static final String NOMBRE = "nombre";
-    public static final String CIF = "CIF";
+    public static final String CIF = "cif";
 
     // Database Information
     static final String DB_NAME = "Hoteles";

@@ -18,28 +18,27 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.recum6.R;
 import com.example.recum6.repository.DatabaseHelper;
 import com.example.recum6.repository.DatabaseManager;
+import com.example.recum6.repository.RoomUse;
 
 public class ListaFragment extends Fragment {
-
-    private DatabaseManager dbManager;
 
     private ListView listView;
 
     private SimpleCursorAdapter adapter;
 
-    final String[] from = new String[]{DatabaseHelper._ID,
-            DatabaseHelper.NOMBRE, DatabaseHelper.CIF};
+    private RoomUse roomUse;
 
-    final int[] to = new int[]{R.id.id, R.id.title, R.id.desc};
+    final String[] from = new String[]{ DatabaseHelper.NOMBRE, DatabaseHelper.CIF};
+
+    final int[] to = new int[]{R.id.title, R.id.desc};
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_lista, container, false);
 
-        dbManager = new DatabaseManager(getContext());
-        dbManager.open();
-        Cursor cursor = dbManager.fetch();
+        roomUse = RoomUse.get(getContext());
+        Cursor cursor = roomUse.getHoteles();
 
         listView = root.findViewById(R.id.list_view);
         listView.setEmptyView(root.findViewById(R.id.empty));
@@ -47,8 +46,6 @@ public class ListaFragment extends Fragment {
         adapter = new SimpleCursorAdapter(getContext(),R.layout.listview_layout,cursor,from,to,0);
 
         listView.setAdapter(adapter);
-
-        dbManager.close();
 
         return root;
     }

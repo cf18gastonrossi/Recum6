@@ -1,5 +1,7 @@
 package com.example.recum6.model;
 
+import android.database.Cursor;
+
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -12,16 +14,16 @@ import java.util.List;
 public interface HotelDao {
 
     @Query("select * from hotel")
-    List<Hotel> getHoteles();
+    Cursor getHoteles();
 
     @Insert
     void insert(Hotel hotel);
 
-    @Update
-    void update(Hotel hotel);
+    @Query("update hotel set nombre = :nombre where cif = :cif")
+    void update(String nombre, String cif);
 
-    @Delete
-    void delete(Hotel hotel);
+    @Query("delete from hotel where cif = :cif")
+    void delete(String cif);
 
     @Query("select * from hotel where cif = :cif")
     Hotel getHotelesByCif(String cif);

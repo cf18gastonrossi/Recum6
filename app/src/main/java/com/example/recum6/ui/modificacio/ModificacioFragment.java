@@ -15,17 +15,20 @@ import androidx.fragment.app.Fragment;
 import com.example.recum6.R;
 import com.example.recum6.model.Hotel;
 import com.example.recum6.repository.DatabaseManager;
+import com.example.recum6.repository.RoomUse;
 
 public class ModificacioFragment extends Fragment {
 
     private TextView nameEditText, cifEditText, cifConsultaEditText, consultaNombre, consultaCIF;
-
+    private RoomUse roomUse;
     private Button modificarButton, consultaButton;
     private DatabaseManager dbManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_modificacio, container, false);
+
+        roomUse = RoomUse.get(getContext());
 
         modificarButton = root.findViewById(R.id.modificarButton);
         consultaButton = root.findViewById(R.id.consultaButton);
@@ -40,11 +43,12 @@ public class ModificacioFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Hotel.checkInput(nameEditText.getText().toString(), cifEditText.getText().toString())) {
-                    dbManager = new DatabaseManager(getContext());
-                    dbManager.open();
-                    dbManager.update(new Hotel(nameEditText.getText().toString(), cifEditText.getText().toString()));
-                    Toast.makeText(getContext(), "Hotel modificado correctamente.", Toast.LENGTH_SHORT).show();
-                    dbManager.close();
+                    try {
+                        roomUse.update(nameEditText.getText().toString(), cifEditText.getText().toString());
+
+                        Toast.makeText(getContext(), "Hotel modificado correctamente.", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                    }
                 } else {
                     Toast.makeText(getContext(), "Hotel no se pudo modificar.", Toast.LENGTH_SHORT).show();
                 }
@@ -56,14 +60,12 @@ public class ModificacioFragment extends Fragment {
             public void onClick(View view) {
                 try {
                     if (!cifConsultaEditText.getText().toString().equalsIgnoreCase("")) {
-                        dbManager = new DatabaseManager(getContext());
-                        dbManager.open();
-                        Cursor c = dbManager.searchForCIF(cifConsultaEditText.getText().toString());
-                        consultaNombre.setText(c.getString(1));
-                        consultaCIF.setText(c.getString(2));
+
+                        Hotel hotel = roomUse.getHotelesByCif(cifConsultaEditText.getText().toString());
+                        consultaNombre.setText(hotel.getNombre());
+                        consultaCIF.setText(hotel.getCif());
                         consultaNombre.setVisibility(View.VISIBLE);
                         consultaCIF.setVisibility(View.VISIBLE);
-                        dbManager.close();
                     }
                 } catch (Exception e) {
                     Toast.makeText(getContext(), "Hotel no se pudo encontrar.", Toast.LENGTH_SHORT).show();

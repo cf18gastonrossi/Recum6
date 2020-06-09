@@ -15,18 +15,24 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.recum6.R;
 import com.example.recum6.model.Hotel;
 import com.example.recum6.repository.DatabaseManager;
+import com.example.recum6.repository.RoomUse;
+
+import java.util.List;
 
 public class AltaBajaFragment extends Fragment {
 
     private TextView nameEditText, cifEditText, cifBajaEditText;
 
     private Button altaButton, bajaButton;
-    private DatabaseManager dbManager;
+
+    private RoomUse roomDB;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_alta, container, false);
+
+        roomDB = RoomUse.get(getContext());
 
         altaButton = root.findViewById(R.id.altaButton);
         bajaButton = root.findViewById(R.id.bajaButton);
@@ -38,11 +44,12 @@ public class AltaBajaFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Hotel.checkInput(nameEditText.getText().toString(), cifEditText.getText().toString())) {
-                    dbManager = new DatabaseManager(getContext());
-                    dbManager.open();
-                    dbManager.insert(new Hotel(nameEditText.getText().toString(), cifEditText.getText().toString()));
-                    Toast.makeText(getContext(), "Hotel dado de alta correctamente.", Toast.LENGTH_SHORT).show();
-                    dbManager.close();
+                    try {
+                        roomDB.insert(new Hotel(nameEditText.getText().toString(), cifEditText.getText().toString()));
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(getContext(), "Parece que ya hay un hotel con ese nombre", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getContext(), "No se pudo dar de alta al hotel.", Toast.LENGTH_SHORT).show();
                 }
@@ -53,15 +60,12 @@ public class AltaBajaFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!cifBajaEditText.getText().toString().equalsIgnoreCase("")) {
-                    dbManager = new DatabaseManager(getContext());
-                    dbManager.open();
                     try {
-                        dbManager.delete(cifBajaEditText.getText().toString());
+                        roomDB.delete(cifBajaEditText.getText().toString());
                         Toast.makeText(getContext(), "Hotel dado de baja correctamente.", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         Toast.makeText(getContext(), "Este hotel no se puede dar de baja.", Toast.LENGTH_SHORT).show();
                     }
-                    dbManager.close();
                 }
             }
         });
